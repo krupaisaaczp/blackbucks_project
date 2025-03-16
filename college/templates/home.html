@@ -1,0 +1,143 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Annamacharya Institute of Technology and Sciences</title>
+    <link rel="stylesheet" href="../static/css/styles.css" />
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <div class="logo">🏫 AITS Tirupati</div>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#courses">Courses</a></li>
+                <li><a href="#examinations">Examinations</a></li>
+                <li><a href="#fees">Fee Structure</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content">
+            <h1>Welcome to AITS Tirupati!</h1>
+            <p>Your future starts here</p>
+            <a href="#courses" class="btn">Explore Courses</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <p>
+            Annamacharya Institute of Technology & Sciences, Tirupati (AITS-T) was established in 2007
+            with a belief that education can influence and mould young minds. 
+            It is a sprawling campus of more than 45 acres of land located at the foot of the Seven Hills.
+        </p>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses">
+        <h2>Our Courses</h2>
+        <div class="course-list">
+            {% for course in courses %}
+            <div class="course">
+                <h3>{{ course.name }}</h3>
+                <p>{{ course.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Examinations Section -->
+    <section id="examinations">
+        <h2>Examinations</h2>
+        <h3>Midterm Exam Schedule</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Syllabus</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exam in exams %}
+                <tr>
+                    <td>{{ exam.course }}</td>
+                    <td>{{ exam.date }}</td>
+                    <td>{{ exam.time }}</td>
+                    <td>
+                        <a href="{{ exam.syllabus.url }}" class="btn-syllabus" target="_blank">
+                            Download Syllabus 📥
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Materials Section -->
+        <h3>Study Materials</h3>
+        <details>
+            <summary>Click to View Materials 📚</summary>
+            <ul>
+                {% for material in materials %}
+                <li>
+                    <a href="{{ material.file.url }}" target="_blank">{{ material.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </details>
+    </section>
+
+    <!-- Fee Structure Section -->
+    <section id="fees">
+        <h2>Fee Structure</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Duration</th>
+                    <th>Annual Fee (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fee in fees %}
+                <tr>
+                    <td>{{ fee.course }}</td>
+                    <td>{{ fee.duration }}</td>
+                    <td>{{ fee.fee }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form action="{% url 'contact' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Annamacharya Institute of Technology and Sciences. All rights reserved.</p>
+    </footer>
+</body>
+</html>
